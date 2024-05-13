@@ -5,6 +5,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+import { methods } from './controllers/authentication.controller.js';
 
 
 
@@ -22,3 +23,4 @@ app.use(express.static(__dirname + '/public'));
 app.get('/', (req, res) => res.sendFile(__dirname + '/pages/login.html'));
 app.get('/register', (req, res) => res.sendFile(__dirname + '/pages/register.html'));
 app.get('/admin', (req, res) => res.sendFile(__dirname + '/pages/admin/admin.html'));
+app.get('/api/register',);
