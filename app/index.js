@@ -5,7 +5,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-import { methods } from './controllers/authentication.controller.js';
+import { methods as authentication } from './controllers/authentication.controller.js';
 
 
 
@@ -17,10 +17,12 @@ console.log('Servidor funcionando en ', app.get('port'));
 
 //Configuration
 app.use(express.static(__dirname + '/public'));
+app.use(express.json()); //with this express middleware can process json
 
 //Routes
 
 app.get('/', (req, res) => res.sendFile(__dirname + '/pages/login.html'));
 app.get('/register', (req, res) => res.sendFile(__dirname + '/pages/register.html'));
 app.get('/admin', (req, res) => res.sendFile(__dirname + '/pages/admin/admin.html'));
-app.get('/api/register',);
+app.post('/api/register', authentication.register);
+app.post('/api/login', authentication.login);

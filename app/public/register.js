@@ -1,3 +1,5 @@
+const mensajeError = document.getElementsByClassName('error')[0];
+
 document.getElementById('register-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     console.log('esto es una prueba', e);
@@ -15,4 +17,9 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
             password: e.target.children.password.value
         })
     });
+    if (!res.ok) return mensajeError.classList.toggle('hidden', false);
+    const resJson = await res.json();
+    if (resJson.redirect) {
+        window.location.href = resJson.redirect;
+    }
 })
