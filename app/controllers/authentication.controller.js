@@ -2,12 +2,16 @@ import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import dotenv from 'dotenv'
 
+dotenv.config();
+
 const usuarios = [{
     user: 'a',
     email: 'a@a',
     password: '$2a$05$XvUc16dYRpGkq0m1lunvM.WabYdJ9pxRPdQexfcgXFxSWtKEwg9Pu'
 
 }]
+
+
 
 async function login(req, res) {
     console.log('hola');
@@ -25,7 +29,16 @@ async function login(req, res) {
     if (!logincorrecto) {
         return res.status(400).send({ status: 'Error', message: 'Error durante el login' })
     }
-    const token = jsonwebtoken.sign({ user: usuarioARevisar.user })
+    const token = jsonwebtoken.sign(
+        { user: usuarioARevisar.user },
+        process.env.JWT_SECRET,
+        { expiresIn: process.env.JWT_EXPIRATION });
+
+    const cookieOption = {
+        expires: process.env.JWT_COOKIE_EXPIRES * 24 * 60 * 60 * 1000,
+        path: '/'
+    }
+    res.cookie(jwt, token, cookieOption)
 
 }
 
